@@ -14,10 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CursoAndroidFirebase">
         <activity
-            android:name=".CadastroUsuario"
+            android:name=".Activity.CadastroUsuario"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

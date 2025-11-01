@@ -1,4 +1,4 @@
-package com.benildosilva.cursoandroidfirebase;
+package com.benildosilva.cursoandroidfirebase.Activity;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.benildosilva.cursoandroidfirebase.R;
 
 public class CadastroUsuario extends AppCompatActivity {
 

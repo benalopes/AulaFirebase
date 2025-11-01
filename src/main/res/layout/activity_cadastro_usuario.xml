@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CadastroUsuario"
+    tools:context=".Activity.CadastroUsuario"
     android:orientation="vertical"
     android:layout_marginTop="16dp"
     android:layout_marginBottom="16dp"
@@ -44,6 +44,23 @@
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <RadioButton
+            android:id="@+id/rbAdmin"
+            android:layout_width="match_parent"
+            android:text="Administrador"
+            android:layout_height="wrap_content"/>
+        <RadioButton
+            android:id="@+id/rbAtend"
+            android:layout_width="match_parent"
+            android:text="Atendente"
+            android:layout_height="wrap_content"/>
+        
+    </RadioGroup>
+        
 
     <Button
         android:id="@+id/btnCadastrar"
