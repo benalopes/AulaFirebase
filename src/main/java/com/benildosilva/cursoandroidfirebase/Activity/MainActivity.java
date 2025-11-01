@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.benildosilva.cursoandroidfirebase.Classes.Usuario;
 import com.benildosilva.cursoandroidfirebase.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtEmailLogin;
     private EditText edtSenhaLogin;
     private Button btnLogin;
+    private Usuario usuario;
 
 
     @Override
@@ -37,13 +39,20 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!edtEmailLogin.getText().toString().equals("")&& (!edtEmailLogin.getText().toString().equals(""))){
-                    
+                if (!edtEmailLogin.getText().toString().equals("")&& (!edtSenhaLogin.getText().toString().equals(""))){
+                    usuario = new Usuario();
+                    usuario.setEmail(edtEmailLogin.getText().toString());
+                    usuario.setSenha(edtSenhaLogin.getText().toString());
+
+                    validarLogin();
                 }else {
                     Toast.makeText(MainActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+    }
+    private void validarLogin(){
 
     }
 }
