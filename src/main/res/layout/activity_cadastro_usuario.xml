@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".CadastroUsuario"
     android:orientation="vertical"
     android:layout_marginTop="16dp"
     android:layout_marginBottom="16dp"
@@ -16,33 +16,45 @@
     <TextView
         android:layout_width="match_parent"
         android:gravity="center_horizontal"
-        android:text="LOGIN"
+        android:text="CADASTRO DE USUÁRIO"
         android:textAlignment="center"
         android:textSize="25sp"
         android:layout_height="wrap_content"/>
-
     <EditText
-        android:id="@+id/edtEmail"
+        android:id="@+id/edtCadEmail"
         android:hint="E-mail"
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
-        android:id="@+id/edtSenha"
-        android:hint="senha"
+        android:id="@+id/edtCadSenha1"
+        android:hint="Senha"
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btnLogin"
-        android:text="LOGIN"
-
+    <EditText
+        android:id="@+id/edtCadSenha2"
+        android:hint="Repita a Senha"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
-
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/edtCadNome"
+        android:hint="nome"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-
-
+    <Button
+        android:id="@+id/btnCadastrar"
+        android:layout_width="match_parent"
+        android:text="CADASTRAR"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnCancelar"
+        android:layout_width="match_parent"
+        android:text="CANCELAR"
+        android:layout_height="wrap_content"/>
 
 
 </LinearLayout>

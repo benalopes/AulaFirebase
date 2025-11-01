@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.benildosilva.cursoandroidfirebase"
-        minSdk = 16
+        minSdk = 23
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -46,6 +46,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(platform(libs.firebase.bom))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
 
 
 }
