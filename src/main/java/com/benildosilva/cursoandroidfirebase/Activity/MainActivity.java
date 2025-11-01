@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    AbrirTelaAdministrador();
+                    AbrirTelaPrincipal();
                     Toast.makeText(MainActivity.this, "Sucesso ao Logar!", Toast.LENGTH_SHORT).show();
 
                 }else {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void AbrirTelaAdministrador(){
+    private void AbrirTelaPrincipal(){
         Intent intent = new Intent(MainActivity.this,CadastroUsuario.class);
         startActivity(intent);
     }
