@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "913330045303",
+    "project_id": "cursoandroidfirebase-897a7",
+    "storage_bucket": "cursoandroidfirebase-897a7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913330045303:android:1df04349d0ea252e9ba172",
+        "android_client_info": {
+          "package_name": "com.benildosilva.cursoandroidfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9anraRgPWYJPIgg4DVmE6jx67ncJkfTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
