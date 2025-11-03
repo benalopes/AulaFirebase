@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.benildosilva.cursoandroidfirebase.Classes.Usuario;
 import com.benildosilva.cursoandroidfirebase.Dao.configuracaoFirebase;
 import com.benildosilva.cursoandroidfirebase.R;
+import com.benildosilva.cursoandroidfirebase.helper.Preferencias;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     AbrirTelaPrincipal();
+                    Preferencias preferencias = new Preferencias(MainActivity.this);
+                    preferencias.salvarUsuarioPreferencia(usuario.getEmail(),usuario.getSenha());
                     Toast.makeText(MainActivity.this, "Sucesso ao Logar!", Toast.LENGTH_SHORT).show();
 
                 }else {
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void AbrirTelaPrincipal(){
         Intent intent = new Intent(MainActivity.this,principalActivity.class);
+        finish();
         startActivity(intent);
     }
 

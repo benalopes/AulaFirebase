@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.benildosilva.cursoandroidfirebase.Classes.Usuario;
 import com.benildosilva.cursoandroidfirebase.Dao.configuracaoFirebase;
 import com.benildosilva.cursoandroidfirebase.R;
+import com.benildosilva.cursoandroidfirebase.helper.Preferencias;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -97,6 +98,11 @@ public class CadastroUsuario extends AppCompatActivity {
            public void onComplete(@NonNull Task<AuthResult> task) {
                if (task.isSuccessful()){
                    insereUsuario(usuario);
+                   finish();
+                   //deslogar ao adicionar novo usuario
+                   autenticacao.signOut();
+                   //abrir tela Principal
+                   abreTelaPrincipal();
 
                }else {
                    String erroExcecao ="";
@@ -131,6 +137,29 @@ public class CadastroUsuario extends AppCompatActivity {
             e.printStackTrace();
             return false;
         }
+
+    }
+
+    private void abreTelaPrincipal(){
+        autenticacao = configuracaoFirebase.getFirebaseAuth();
+        Preferencias preferencias = new Preferencias(CadastroUsuario.this);
+        autenticacao.signInWithEmailAndPassword(preferencias.getEMAIL_USUARIO_LOGADO()
+                ,preferencias.getSENHA_USUARIO_LOGADO()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isComplete()){
+                    Intent novaIntente = new Intent(CadastroUsuario.this,principalActivity.class);
+                    startActivity(novaIntente);
+                    finish();
+                }else {
+                    Toast.makeText(CadastroUsuario.this, "Falha!", Toast.LENGTH_SHORT).show();
+                    Intent novaIntente = new Intent(CadastroUsuario.this,MainActivity.class);
+                    startActivity(novaIntente);
+                }
+
+            }
+        });
+
 
     }
 }
