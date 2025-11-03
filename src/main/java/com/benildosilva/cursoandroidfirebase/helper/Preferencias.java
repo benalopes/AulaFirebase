@@ -25,10 +25,10 @@ public class Preferencias {
         editor.commit();
 
     }
-    public String getEMAIL_USUARIO_LOGADO(){
+    public String getEmail_Usuario_logado(){
         return preferencias.getString(EMAIL_USUARIO_LOGADO,null);
     }
-    public String getSENHA_USUARIO_LOGADO(){
+    public String getSenha_usuario_logado(){
         return preferencias.getString(SENHA_USUARIO_LOGADO,null);
     }
 }

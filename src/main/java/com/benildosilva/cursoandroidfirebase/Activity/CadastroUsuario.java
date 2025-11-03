@@ -61,105 +61,120 @@ public class CadastroUsuario extends AppCompatActivity {
 
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (senha1.getText().toString().equals(senha2.getText().toString())){
+            public void onClick(View view) {
+
+                if (senha1.getText().toString().equals(senha2.getText().toString())) {
                     usuario = new Usuario();
+
                     usuario.setEmail(email.getText().toString());
                     usuario.setSenha(senha1.getText().toString());
                     usuario.setNome(nome.getText().toString());
 
-                    if (rbAdmin.isChecked()){
+                    if (rbAdmin.isChecked()) {
                         usuario.setTipoUsuario("Administrador");
-                    }else if (rbAtend.isChecked()){
+                    } else if (rbAtend.isChecked()) {
                         usuario.setTipoUsuario("Atendente");
                     }
+
+                    //chamada de método para cadastro de usuários
                     cadastrarUsuario();
-                }else {
-                    Toast.makeText(CadastroUsuario.this, "As Senhas não se correspondem!", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(CadastroUsuario.this, "As senhas não se correspondem!", Toast.LENGTH_LONG).show();
                 }
             }
         });
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void cadastrarUsuario() {
+
+        autenticacao = configuracaoFirebase.getFirebaseAuth();
+        autenticacao.createUserWithEmailAndPassword(
+                usuario.getEmail(),
+                usuario.getSenha()
+        ).addOnCompleteListener(CadastroUsuario.this, new OnCompleteListener<AuthResult>() {
             @Override
-            public void onClick(View v) {
-                finish();
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+
+                    insereUsuario(usuario);
+
+                    finish();
+
+                    //deslogar ao adicionar o usuário
+                    autenticacao.signOut();
+
+                    //para abrir a nossa tela principal após a re-autenticação
+                    abreTelaPrincipal();
+
+
+                } else {
+
+                    String erroExcecao = "";
+
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthWeakPasswordException e) {
+                        erroExcecao = "Digite uma senha mais forte, contendo no mínimo 8 caracteres e que contenha letras e números!";
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                        erroExcecao = "O e-mail digitado é invalido, digite um novo e-mail";
+                    } catch (FirebaseAuthUserCollisionException e) {
+                        erroExcecao = "Esse e-mail já está cadastro!";
+                    } catch (Exception e) {
+                        erroExcecao = "Erro ao efetuar o cadastro!";
+                        e.printStackTrace();
+                    }
+
+                    Toast.makeText(CadastroUsuario.this, "Erro: " + erroExcecao, Toast.LENGTH_LONG).show();
+                }
+
             }
         });
-
     }
 
-    private void cadastrarUsuario(){
-       autenticacao = configuracaoFirebase.getFirebaseAuth();
-       autenticacao.createUserWithEmailAndPassword(
-               usuario.getEmail(),
-               usuario.getSenha()
-       ).addOnCompleteListener(CadastroUsuario.this, new OnCompleteListener<AuthResult>() {
-           @Override
-           public void onComplete(@NonNull Task<AuthResult> task) {
-               if (task.isSuccessful()){
-                   insereUsuario(usuario);
-                   finish();
-                   //deslogar ao adicionar novo usuario
-                   autenticacao.signOut();
-                   //abrir tela Principal
-                   abreTelaPrincipal();
+    private boolean insereUsuario(Usuario usuario) {
 
-               }else {
-                   String erroExcecao ="";
-                   try {
-                       throw task.getException();
-                   } catch (FirebaseAuthWeakPasswordException e) {
-                       erroExcecao = "Digite uma senha mais forte que contenha no minimo 8 caracteres e que contenha letras e numeros. ";
-                   }catch (FirebaseAuthInvalidCredentialsException e) {
-                       erroExcecao = "Digite um E-mail Válido ";
-                   }catch (FirebaseAuthUserCollisionException e) {
-                       erroExcecao = "Esse E-mail já está cadastrado!";
-                   }catch (Exception e) {
-                       erroExcecao = "Erro ao efetuar o Cadastro";
-                       e.printStackTrace();
-                   }
-                   Toast.makeText(CadastroUsuario.this, "Erro: " + erroExcecao, Toast.LENGTH_SHORT).show();
-               }
-
-           }
-       });
-
-    }
-
-    private Boolean insereUsuario(Usuario usuario){
         try {
+
             reference = configuracaoFirebase.getFirebase().child("usuarios");
             reference.push().setValue(usuario);
-            Toast.makeText(this, "Usuário cadastrado com Sucesso!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastroUsuario.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
             return true;
+
         } catch (Exception e) {
-            Toast.makeText(CadastroUsuario.this, "Erro ao Cadastrar usuário ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastroUsuario.this, "Erro ao gravar o usuário!", Toast.LENGTH_LONG).show();
             e.printStackTrace();
             return false;
         }
-
     }
 
-    private void abreTelaPrincipal(){
+    private void abreTelaPrincipal() {
+
         autenticacao = configuracaoFirebase.getFirebaseAuth();
+
         Preferencias preferencias = new Preferencias(CadastroUsuario.this);
-        autenticacao.signInWithEmailAndPassword(preferencias.getEMAIL_USUARIO_LOGADO()
-                ,preferencias.getSENHA_USUARIO_LOGADO()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+        autenticacao.signInWithEmailAndPassword(preferencias.getEmail_Usuario_logado(), preferencias.getSenha_usuario_logado()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isComplete()){
-                    Intent novaIntente = new Intent(CadastroUsuario.this,principalActivity.class);
-                    startActivity(novaIntente);
+
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(CadastroUsuario.this, principalActivity.class);
+                    startActivity(intent);
                     finish();
-                }else {
-                    Toast.makeText(CadastroUsuario.this, "Falha!", Toast.LENGTH_SHORT).show();
-                    Intent novaIntente = new Intent(CadastroUsuario.this,MainActivity.class);
-                    startActivity(novaIntente);
+                } else {
+
+                    Toast.makeText(CadastroUsuario.this, "Falha!", Toast.LENGTH_LONG).show();
+                    autenticacao.signOut();
+                    Intent intent = new Intent(CadastroUsuario.this, MainActivity.class);
+                    finish();
+                    startActivity(intent);
                 }
 
             }
         });
 
-
     }
+
 }
+
