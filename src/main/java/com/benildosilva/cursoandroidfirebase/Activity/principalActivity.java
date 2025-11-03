@@ -22,13 +22,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.Principal;
 import java.security.cert.PolicyNode;
 
 public class principalActivity extends AppCompatActivity {
 
     private FirebaseAuth autenticacao;
     private DatabaseReference referenciaFirebase;
-    private TextView txtTipoUsuario;
+    private TextView TipoUsuario;
     private Usuario usuario;
     private String tipoUsuarioEmail;
     private Menu menu1;
@@ -38,47 +39,52 @@ public class principalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_principal);
-        txtTipoUsuario = (TextView)findViewById(R.id.txtTipoUsuario);
+
+        TipoUsuario = (TextView) findViewById(R.id.txtTipoUsuario);
+
         autenticacao = FirebaseAuth.getInstance();
         referenciaFirebase = FirebaseDatabase.getInstance().getReference();
+
+
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.clear();
-        this.menu1 = menu;
+
+      menu.clear();
+
+      this.menu1 = menu;
+
+
+        //recebendo o e-mail do usuário logado no momento
         String email = autenticacao.getCurrentUser().getEmail().toString();
 
-        referenciaFirebase.child("usuarios").orderByChild("email")
-                .equalTo(email.toString())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange( DataSnapshot snapshot) {
-                        for (DataSnapshot postSnapshot : snapshot.getChildren()){
-                            tipoUsuarioEmail = postSnapshot.child("tipoUsuario").getValue().toString();
+        referenciaFirebase.child("usuarios").orderByChild("email").equalTo(email.toString()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            txtTipoUsuario.setText(tipoUsuarioEmail);
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    tipoUsuarioEmail = postSnapshot.child("tipoUsuario").getValue().toString();
 
-                            //menu1.clear();
-                            if (tipoUsuarioEmail.equals("Administrador")){
-                                getMenuInflater().inflate(R.menu.menu_admin,menu);
+                    TipoUsuario.setText(tipoUsuarioEmail);
 
-                            } else if (tipoUsuarioEmail.equals("Atendente")) {
-                                getMenuInflater().inflate(R.menu.menu_atend,menu1);
+                   menu1.clear();
 
-
-                            }
-
-                        }
-
+                    if (tipoUsuarioEmail.equals("Administrador")) {
+                        getMenuInflater().inflate(R.menu.menu_admin, menu1);
+                    } else if (tipoUsuarioEmail.equals("Atendente")) {
+                        getMenuInflater().inflate(R.menu.menu_atend, menu1);
                     }
+                }
+            }
 
-                    @Override
-                    public void onCancelled( DatabaseError error) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+            }
+        });
+
 
         return true;
     }
@@ -88,28 +94,34 @@ public class principalActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (id == R.id.action_add_usuario){
-            abrirTelaCadUsuario();
-
-        }else if (id == R.id.action_sair_admin){
-            delogarUsuario();
-
-        }else if (id == R.id.action_sair_atend){
-            delogarUsuario();
-
+        if (id == R.id.action_add_usuario) {
+            abrirTelaCadastroUsuario();
+        } else if (id == R.id.action_sair_admin) {
+            deslogarUsuario();
+        } else if (id == R.id.action_sair_atend) {
+            deslogarUsuario();
         }
+
         return super.onOptionsItemSelected(item);
+
     }
 
-    private void abrirTelaCadUsuario(){
+
+    private void abrirTelaCadastroUsuario() {
         Intent intent = new Intent(principalActivity.this, CadastroUsuario.class);
+
         startActivity(intent);
     }
-    private void  delogarUsuario(){
+
+    private void deslogarUsuario() {
+
         autenticacao.signOut();
-        Intent intent = new Intent(principalActivity.this,MainActivity.class);
+
+        Intent intent = new Intent(principalActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
 
     }
+
+
 }

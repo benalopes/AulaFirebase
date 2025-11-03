@@ -1,5 +1,6 @@
 package com.benildosilva.cursoandroidfirebase.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +47,7 @@ public class CadastroUsuario extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_cadastro_usuario);
+
 
         email = (EditText) findViewById(R.id.edtCadEmail);
         senha1 = (EditText) findViewById(R.id.edtCadSenha1);
@@ -101,9 +103,9 @@ public class CadastroUsuario extends AppCompatActivity {
                    try {
                        throw task.getException();
                    } catch (FirebaseAuthWeakPasswordException e) {
-                       erroExcecao = "Digite uma senha mais forte que contnha no minimo 8 caracteres e que contenha letras e numeros. ";
+                       erroExcecao = "Digite uma senha mais forte que contenha no minimo 8 caracteres e que contenha letras e numeros. ";
                    }catch (FirebaseAuthInvalidCredentialsException e) {
-                       erroExcecao = "Digite um E - mail Válido ";
+                       erroExcecao = "Digite um E-mail Válido ";
                    }catch (FirebaseAuthUserCollisionException e) {
                        erroExcecao = "Esse E-mail já está cadastrado!";
                    }catch (Exception e) {

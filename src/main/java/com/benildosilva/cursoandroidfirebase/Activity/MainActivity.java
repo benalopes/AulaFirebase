@@ -10,6 +10,9 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.benildosilva.cursoandroidfirebase.Classes.Usuario;
 import com.benildosilva.cursoandroidfirebase.Dao.configuracaoFirebase;
@@ -35,13 +38,14 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+
         edtEmailLogin = (EditText) findViewById(R.id.edtEmail);
         edtSenhaLogin = (EditText) findViewById(R.id.edtSenha);
         btnLogin = (Button) findViewById(R.id.btnLogin);
 
         if (UsuarioLogado()) {
-            Intent intentMinhaConta = new Intent(MainActivity.this,principalActivity.class);
-            abrirNovaActivity(intentMinhaConta);
+            Intent intentMinhaConta = new Intent(MainActivity.this, principalActivity.class);
+           abrirNovaActivity(intentMinhaConta);
         } else {
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -62,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
     }
     private void validarLogin(){
         autenticacao = configuracaoFirebase.getFirebaseAuth();
-        autenticacao.signInWithEmailAndPassword(usuario.getEmail().toString(),usuario.getSenha().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        autenticacao.signInWithEmailAndPassword(usuario.getEmail()
+                .toString(),usuario.getSenha().toString())
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){

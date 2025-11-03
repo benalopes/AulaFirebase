@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CursoAndroidFirebase">
         <activity
+            android:name=".Activity.UploadFotoActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.principalActivity"
             android:exported="false" />
         <activity
